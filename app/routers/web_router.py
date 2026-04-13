@@ -1,23 +1,11 @@
 from fastapi import APIRouter, Form, Request
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
-from pydantic import BaseModel, ConfigDict
 
 from .dependencies import MessageServiceDep
 
 router = APIRouter()
 templates = Jinja2Templates(directory="app/templates")
-
-
-class MessageSchema(BaseModel):
-    id: int
-    content: str
-
-    model_config = ConfigDict(from_attributes=True)
-
-
-class MessageCreateSchema(BaseModel):
-    content: str
 
 
 @router.get("/web/messages", response_class=HTMLResponse)
