@@ -13,7 +13,7 @@ class BaseRepository(Generic[T]):
         self.model = model
 
     async def get_all(self) -> list[T]:
-        result = await self.session.scalars(select(self.model))
+        result = await self.session.scalars(select(self.model).order_by(self.model.id))
         return result.all()
 
     async def get_by_id(self, obj_id: int) -> Optional[T]:

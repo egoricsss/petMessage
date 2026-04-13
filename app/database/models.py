@@ -14,3 +14,8 @@ class Message(Base):
 
     def __repr__(self):
         return f"Message(id={self.id!r}, content={self.content!r})"
+
+    def __eq__(self, other):
+        if not isinstance(other, Message):
+            return False
+        return self.id == other.id and self.content == self.content
