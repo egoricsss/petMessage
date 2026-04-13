@@ -1,35 +1,17 @@
-from contextlib import nullcontext as does_not_raise
-
 import pytest
+from faker import Faker
 
-from app.database.models import Message
-from sqlalchemy.orm import DeclarativeBase
-from src.calculator import Calculator
-
-
-@pytest.mark.parametrize("x, y, res", [(1, 2, 3), (5, -1, 4)])
-def test_create_message(x, y, res):
-    assert x + y == res
+fake = Faker()
 
 
-def test_is_instance_message():
-    assert issubclass(Message, DeclarativeBase)
+@pytest.fixture
+def message_data():
+    return [{"content": fake.sentence()} for _ in range(5)]
 
 
-class TestCalculator:
-    @pytest.mark.parametrize("x, y, res", [(1, 2, 3), (4, 5, 9), (6, 7, 13)])
-    def test_add(self, x, y, res):
-        assert Calculator().add(x, y) == res
-
-    @pytest.mark.parametrize(
-        "x, y, res, expectation",
-        [
-            (1, 2, 0.5, does_not_raise()),
-            (2, 2, 1, does_not_raise()),
-            (1, 1, 1, does_not_raise()),
-            (1, 0, float("inf"), pytest.raises(ZeroDivisionError)),
-        ],
-    )
-    def test_divide(self, x, y, res, expectation):
-        with expectation:
-            assert Calculator().divide(x, y) == res
+class TestMessageRepositiry:
+    async def test_create_message(self, message_service, message_data):
+        await message_service.create_messages_bulk(message_data)
+        messages = await message_service.get_all_messages()
+        print(messages)
+        assert len(messages) == 5

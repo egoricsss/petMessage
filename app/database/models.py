@@ -11,3 +11,6 @@ class Message(Base):
 
     id: Mapped[int] = mapped_column(primary_key=True)
     content: Mapped[str] = mapped_column(Text)
+
+    def __repr__(self):
+        return f"Message(id={self.id!r}, content={self.content!r})"
