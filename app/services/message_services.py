@@ -22,8 +22,5 @@ class MessageService:
     async def create_message(self, content: str) -> Message:
         return await self.repository.create(content=content)
 
-    async def create_messages_bulk(self, data: list[dict[str, str]]) -> list[Message]:
-        return await self.repository.create_all(data)
-
     async def delete_all_messages(self) -> bool:
         return await self.repository.delete_all()

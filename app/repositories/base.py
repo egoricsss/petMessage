@@ -25,10 +25,6 @@ class BaseRepository(Generic[T]):
         stmt = insert(self.model).values(**kwargs).returning(self.model)
         return await self.session.scalar(stmt)
 
-    async def create_all(self, data: list[dict[str, Any]]) -> list[T]:
-        stmt = insert(self.model).values(data).returning(self.model)
-        return await self.session.scalars(stmt)
-
     async def update(self, obj_id: int, **kwargs) -> T:
         stmt = (
             update(self.model)

@@ -1,7 +1,9 @@
 import pytest
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
+from sqlalchemy import insert
 
 from app.database.utils import Base
+from app.database.models import Message
 from app.repositories.message import MessageRepository
 from app.services.message_services import MessageService
 
@@ -40,3 +42,14 @@ async def db_session(test_engine):
 def message_service(db_session) -> MessageService:
     repo = MessageRepository(session=db_session)
     return MessageService(repository=repo)
+
+
+@pytest.fixture(scope="function", autouse=True)
+async def seeded_messages(db_session):
+    data = [
+        {"content": "first message in FastAPI"},
+        {"content": "second message"},
+        {"content": "third message in FastAPI"},
+    ]
+    await db_session.execute(insert(Message).values(data))
+    yield data

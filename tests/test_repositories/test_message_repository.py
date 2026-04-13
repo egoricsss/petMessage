@@ -1,19 +1,8 @@
 import pytest
-from sqlalchemy import insert, select
+from sqlalchemy import select
 
 from app.repositories.message import MessageRepository
 from app.database.models import Message
-
-
-@pytest.fixture(scope="function", autouse=True)
-async def seeded_messages(db_session):
-    data = [
-        {"content": "first message in FastAPI"},
-        {"content": "second message"},
-        {"content": "third message in FastAPI"},
-    ]
-    await db_session.execute(insert(Message).values(data))
-    yield data
 
 
 @pytest.fixture
