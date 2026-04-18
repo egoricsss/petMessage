@@ -2,10 +2,10 @@ import pytest
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 from sqlalchemy import insert
 
-from app.database.utils import Base
-from app.database.models import Message
-from app.repositories.message import MessageRepository
-from app.services.message_services import MessageService
+from message_application.app.database.utils import Base
+from message_application.app.database.models import Message
+from message_application.app.repositories.message import MessageRepository
+from message_application.app.services.message_services import MessageService
 
 TEST_DB_URL = "sqlite+aiosqlite:///:memory:"
 

@@ -1,8 +1,8 @@
 import pytest
 from sqlalchemy import select
 
-from app.repositories.message import MessageRepository
-from app.database.models import Message
+from message_application.app.repositories.message import MessageRepository
+from message_application.app.database.models import Message
 
 
 @pytest.fixture

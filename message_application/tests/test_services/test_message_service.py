@@ -1,5 +1,5 @@
 import pytest
-from app.database.models import Message
+from message_application.app.database.models import Message
 from contextlib import nullcontext as does_not_raise
 from fastapi import HTTPException
 
