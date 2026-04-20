@@ -12,7 +12,12 @@ from src.routers import message_router
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    init_db(database_url="sqlite:///:memory:", echo=True, poolclass=StaticPool)
+    init_db(
+        database_url="sqlite:///:memory:",
+        echo=True,
+        poolclass=StaticPool,
+        connect_args={"check_same_thread": False},
+    )
 
     from src.database.message import Message
 

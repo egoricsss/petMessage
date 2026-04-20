@@ -12,9 +12,9 @@ from src.database.message import Message
 router = APIRouter()
 
 
-@router.get("/messages/{message_id}", response_class=MessageSchema)
+@router.get("/messages/{message_id}", response_model=MessageSchema)
 async def get_message(message_id: int, db_session: DbSessionDep) -> MessageSchema:
-    stmt = select(MessageSchema).where(MessageSchema.id == message_id)
+    stmt = select(Message).where(Message.id == message_id)
     message = db_session.scalar(stmt)
     if message is None:
         raise HTTPException(
@@ -76,6 +76,13 @@ async def delete_message(message_id: int, db_session: DbSessionDep) -> MessageSc
             status_code=status.HTTP_404_NOT_FOUND, detail="message not found"
         )
     return deleted_message
+
+
+@router.get("/messages", response_model=list[MessageSchema])
+async def get_messages(db_session: DbSessionDep) -> list[MessageSchema]:
+    stmt = select(Message)
+    messages = db_session.scalars(stmt)
+    return messages
 
 
 @router.post("/messages", response_model=MessageSchema)
