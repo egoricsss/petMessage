@@ -1,4 +1,4 @@
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field
 
 
 class MessageCreateSchema(BaseModel):
@@ -8,9 +8,10 @@ class MessageCreateSchema(BaseModel):
 
 
 class MessageUpdateSchema(BaseModel):
-    content: str | None = None
+    update_id: int | None = Field(default=None, alias="id")
+    update_content: str | None = Field(default=None, alias="content")
 
-    model_config = ConfigDict(from_attributes=True)
+    model_config = ConfigDict(from_attributes=True, populate_by_name=True)
 
 
 class MessageSchema(BaseModel):
